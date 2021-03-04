@@ -1,21 +1,34 @@
-export const __dependency__ = Symbol('date item as dependency')
+const __dependency__ = Symbol('data item dependency function')
+const __observed__ = Symbol('function has been wrapped as callback')
+const __iterate__ = Symbol('key for all iterate callback')
 
-export type Key = string | number | symbol
+type Key = string | number | symbol
 
-export type Raw = object
-export type Reaction = object
+type Raw = object
+type Reaction = object
 
-export type Dependency = Function & { [__dependency__]: true }
+type Callback = Function & { cleaners?: CallbackSet[]; [__observed__]?: true }
+type CallbackSet = Set<Callback>
+type CallbackMap = Map<Key, CallbackSet>
 
-export type Callback = Function & { cleaners?: CallbackSet[] }
-export type CallbackSet = Set<Callback>
-export type CallbackMap = Map<Key, CallbackSet>
-
-export interface Operation {
+interface Operation {
   type?: 'get' | 'iterate' | 'add' | 'set' | 'delete' | 'clear' | 'has' | 'any'
   target: Raw
   key: Key
   receiver?: any
   value?: any
   oldValue?: any
+}
+
+export {
+  __dependency__,
+  __observed__,
+  __iterate__,
+  Key,
+  Raw,
+  Reaction,
+  Callback,
+  CallbackSet,
+  CallbackMap,
+  Operation,
 }
