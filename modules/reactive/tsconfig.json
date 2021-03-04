@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "noImplicitAny": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "declaration": true
+  },
+  "include": ["core/**/*"]
+}
