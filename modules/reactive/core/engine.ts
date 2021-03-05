@@ -2,9 +2,12 @@ import {
   callbackStack,
   raw2callbackMap,
   raw2ListenerMap,
+  raw2parent,
   raw2reaction,
+  raw2visited,
 } from './global'
 import { Callback, Operation, __iterate__, __observed__ } from './types'
+import { isIterateFunction } from './utils'
 
 function wrapAndReturn(
   callback: Callback,
@@ -76,7 +79,7 @@ function registerDependency(f: Function, { target, key }: Operation) {
   )
 }
 
-function dealWithOperation(operation: Operation) {
+function triggerCallbackOfOperation(operation: Operation) {
   const { target, key } = operation
   const callbackMap = raw2callbackMap.get(target)
   const triggerSet = new Set<Callback>()
@@ -88,3 +91,27 @@ function dealWithOperation(operation: Operation) {
 
   triggerSet.forEach(c => c(operation))
 }
+
+function dealWithReadOperation({ target, key }: Operation) {
+  if (key === '$') return raw2parent.get(target)
+  if (callbackStack.length === 0) return target[key]
+
+  const callback = callbackStack[callbackStack.length - 1]
+  const visited = raw2visited.get(target)
+
+  if (isIterateFunction(target, key)) {
+    raw2visited.set(target, new Set(Object.keys(target)))
+  } else if (visited) {
+    visited.delete(key)
+    if (visited.size === 0) {
+      raw2visited.delete(target)
+      mountCallback(callback, { target, key: __iterate__ })
+    }
+  } else {
+    mountCallback(callback, { target, key })
+  }
+
+  return Reflect.get(target, key)
+}
+
+export { registerDependency, dealWithReadOperation, triggerCallbackOfOperation }
