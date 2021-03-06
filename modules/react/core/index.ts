@@ -33,7 +33,7 @@ function XForm({ schema, onChange, transformer }: XFormProps) {
       render()
     }
     observeEasy(defaultRender)
-    return unobserveEasy(defaultRender)
+    return () => unobserveEasy(defaultRender)
   }, [])
 
   useEffect(() => {
