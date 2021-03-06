@@ -13,3 +13,7 @@ function render() {
 module.hot?.accept('./App', render)
 
 render()
+
+// import test from '@/testcase/reactive'
+
+// test()

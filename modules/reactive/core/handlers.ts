@@ -2,6 +2,7 @@ import {
   dealWithReadOperation,
   registerDependency,
   triggerCallbackOfOperation,
+  ArrayPrototypeWrapperMap,
 } from './engine'
 import { raw2parent, raw2reaction, reaction2raw } from './global'
 import { isDependencyFunction, isObject } from './utils'
@@ -11,8 +12,12 @@ import { __iterate__ } from './types'
 const baseHandlers: ProxyHandler<any> = {
   get(target, key, receiver) {
     let result = dealWithReadOperation({ target, key, receiver })
-    if (isDependencyFunction(result))
-      result = registerDependency(result, { target, key })
+    if (ArrayPrototypeWrapperMap.has(result))
+      return ArrayPrototypeWrapperMap.get(result)
+    if (isDependencyFunction(result)) {
+      registerDependency(result, { target, key })
+      result = Reflect.get(target, key)
+    }
     if (!isObject(result)) return result
     if (!raw2parent.has(result))
       raw2parent.set(result, raw2reaction.get(target))
@@ -24,10 +29,6 @@ const baseHandlers: ProxyHandler<any> = {
     const hasKey = Object.prototype.hasOwnProperty.call(target, key)
     const oldValue = Reflect.get(target, key)
     const result = Reflect.set(target, key, value)
-
-    if (isObject(oldValue) && isObject(value)) {
-      // to-do
-    }
 
     if (target.constructor.prototype[key] !== undefined)
       triggerCallbackOfOperation({ target, key, type: 'set' })

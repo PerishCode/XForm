@@ -1,3 +1,9 @@
+import TestCase from '@/testcase/react'
+
 export default function App() {
-  return <div>Yeah</div>
+  return (
+    <div>
+      <TestCase />
+    </div>
+  )
 }

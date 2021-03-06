@@ -6,7 +6,9 @@
     "noImplicitAny": true,
     "removeComments": false,
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx"
   },
   "include": ["core/**/*"]
 }

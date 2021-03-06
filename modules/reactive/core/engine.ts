@@ -1,13 +1,23 @@
 import {
   callbackStack,
+  easyCallback,
   raw2callbackMap,
   raw2ListenerMap,
   raw2parent,
   raw2reaction,
   raw2visited,
+  reaction2raw,
 } from './global'
-import { Callback, Operation, __iterate__, __observed__ } from './types'
-import { isIterateFunction } from './utils'
+import {
+  Callback,
+  Operation,
+  Reaction,
+  __iterate__,
+  __observed__,
+} from './types'
+import { isIterateFunction, isObject } from './utils'
+
+let enableIterateCallback = true
 
 function wrapAndReturn(
   callback: Callback,
@@ -26,7 +36,7 @@ function wrapAndReturn(
   return result
 }
 
-function observe(f: Function & { [__observed__]?: true }): Callback {
+function observe(f: Function): Callback {
   const callback = (...args: any[]) => wrapAndReturn(callback, f, this, args)
   callback()
   return callback
@@ -34,6 +44,21 @@ function observe(f: Function & { [__observed__]?: true }): Callback {
 
 function unobserve(callback: Callback) {
   callback.cleaners?.forEach(callbackSet => callbackSet.delete(callback))
+}
+
+function observeEasy(f: Function) {
+  easyCallback.add(f)
+  console.log(easyCallback)
+}
+
+function unobserveEasy(f: Function) {
+  easyCallback.delete(f)
+}
+
+function slientOperation(f: Function) {
+  f()
+  console.log(easyCallback)
+  easyCallback.forEach(c => c())
 }
 
 function mountCallback(callback: Callback, { target, key }: Operation) {
@@ -81,13 +106,18 @@ function registerDependency(f: Function, { target, key }: Operation) {
 
 function triggerCallbackOfOperation(operation: Operation) {
   const { target, key } = operation
+
   const callbackMap = raw2callbackMap.get(target)
   const triggerSet = new Set<Callback>()
 
   if (key !== __iterate__)
     callbackMap?.get(key)?.forEach(c => triggerSet.add(c))
-  if (target.constructor.prototype[key] === undefined)
+  if (
+    target.constructor.prototype[key] === undefined &&
+    enableIterateCallback
+  ) {
     callbackMap?.get(__iterate__)?.forEach(c => triggerSet.add(c))
+  }
 
   triggerSet.forEach(c => c(operation))
 }
@@ -114,4 +144,113 @@ function dealWithReadOperation({ target, key }: Operation) {
   return Reflect.get(target, key)
 }
 
-export { registerDependency, dealWithReadOperation, triggerCallbackOfOperation }
+function combine(source: Reaction, auxiliary: Reaction) {
+  if (!isObject(source) || !isObject(auxiliary)) return source
+
+  const raw = reaction2raw.get(source)
+  return new Proxy<any>(
+    {},
+    {
+      get(_, key) {
+        return source[key] !== undefined
+          ? combine(source[key], auxiliary[key])
+          : auxiliary[key]
+      },
+      set(_, key, value) {
+        return Reflect.get(raw, key) === undefined
+          ? Reflect.set(auxiliary, key, value)
+          : Reflect.set(source, key, value)
+      },
+      ownKeys() {
+        return Reflect.ownKeys(source)
+      },
+      getOwnPropertyDescriptor(_, key) {
+        return {
+          configurable: true,
+          enumerable: raw.constructor.prototype[key] === undefined,
+        }
+      },
+    }
+  )
+}
+
+const ArrayPrototypeWrapperMap = new Map<Function, Function>([
+  [
+    Array.prototype.splice,
+    function _splice(...args: any[]) {
+      enableIterateCallback = false
+      const result = Array.prototype.splice.apply(this, args)
+      enableIterateCallback = true
+      triggerCallbackOfOperation({
+        target: reaction2raw.get(this),
+        key: __iterate__,
+      })
+      return result
+    },
+  ],
+  [
+    Array.prototype.push,
+    function _push(...args: any[]) {
+      enableIterateCallback = false
+      const result = Array.prototype.push.apply(this, args)
+      enableIterateCallback = true
+      triggerCallbackOfOperation({
+        target: reaction2raw.get(this),
+        key: __iterate__,
+      })
+      return result
+    },
+  ],
+  [
+    Array.prototype.pop,
+    function _pop(...args: any[]) {
+      enableIterateCallback = false
+      const result = Array.prototype.pop.apply(this, args)
+      enableIterateCallback = true
+      triggerCallbackOfOperation({
+        target: reaction2raw.get(this),
+        key: __iterate__,
+      })
+      return result
+    },
+  ],
+  [
+    Array.prototype.shift,
+    function _shift(...args: any[]) {
+      enableIterateCallback = false
+      const result = Array.prototype.shift.apply(this, args)
+      enableIterateCallback = true
+      triggerCallbackOfOperation({
+        target: reaction2raw.get(this),
+        key: __iterate__,
+      })
+      return result
+    },
+  ],
+  [
+    Array.prototype.unshift,
+    function _unshift(...args: any[]) {
+      enableIterateCallback = false
+      const result = Array.prototype.unshift.apply(this, args)
+      enableIterateCallback = true
+      triggerCallbackOfOperation({
+        target: reaction2raw.get(this),
+        key: __iterate__,
+      })
+      return result
+    },
+  ],
+])
+
+export {
+  registerDependency,
+  dealWithReadOperation,
+  triggerCallbackOfOperation,
+  combine,
+  observe,
+  unobserve,
+  observeEasy,
+  unobserveEasy,
+  slientOperation,
+  ArrayPrototypeWrapperMap,
+}
