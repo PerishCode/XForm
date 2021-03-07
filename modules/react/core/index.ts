@@ -4,18 +4,25 @@ import {
   reactive,
   observeEasy,
   unobserveEasy,
-  slientOperation,
+  aggregatedOperation,
+  wrapAsDependency,
 } from '@xform/reactive'
 import { Factory } from './engine'
-import { __render__, __withHooks__ } from './global'
+import { __render__, __withHooks__, __fragment__ } from './global'
 
 interface XFormProps {
   schema?: any
   onChange?: Function
   transformer?: Function
+  asyncTransformer?: Function
 }
 
-function XForm({ schema, onChange, transformer }: XFormProps) {
+function XForm({
+  schema,
+  onChange,
+  transformer,
+  asyncTransformer,
+}: XFormProps) {
   const containerRef = useRef()
   const reactionRef = useRef()
 
@@ -38,8 +45,10 @@ function XForm({ schema, onChange, transformer }: XFormProps) {
 
   useEffect(() => {
     if (!schema) return
-    render(transformer ? transformer(schema) : schema)
-  }, [schema, transformer])
+    if (transformer) render(transformer(schema))
+    else if (asyncTransformer) asyncTransformer(schema).then(render)
+    else render(schema)
+  }, [schema, transformer, asyncTransformer])
 
   return React.createElement('div', {
     ref: containerRef,
@@ -49,4 +58,11 @@ function XForm({ schema, onChange, transformer }: XFormProps) {
 
 export default XForm
 
-export { __render__, __withHooks__, Factory, slientOperation }
+export {
+  __render__,
+  __withHooks__,
+  __fragment__,
+  Factory,
+  aggregatedOperation,
+  wrapAsDependency,
+}

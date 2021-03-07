@@ -7,6 +7,7 @@ const KeyOfIterateFunction = new Set<Key>([
   'values',
   'keys',
   'every',
+  'reduce',
 ])
 
 const raw2reaction = new WeakMap<Raw, Reaction>()

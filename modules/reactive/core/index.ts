@@ -1,13 +1,13 @@
 import { raw2reaction, reaction2raw } from './global'
 import { isObject } from './utils'
-import { Raw, __dependency__ } from './types'
+import { Operation, Raw, __dependency__ } from './types'
 import {
   observe,
   unobserve,
   combine,
   observeEasy,
   unobserveEasy,
-  slientOperation,
+  aggregatedOperation,
 } from './engine'
 import handlers from './handlers'
 
@@ -34,5 +34,5 @@ export {
   combine,
   observeEasy,
   unobserveEasy,
-  slientOperation,
+  aggregatedOperation,
 }

@@ -48,16 +48,14 @@ function unobserve(callback: Callback) {
 
 function observeEasy(f: Function) {
   easyCallback.add(f)
-  console.log(easyCallback)
 }
 
 function unobserveEasy(f: Function) {
   easyCallback.delete(f)
 }
 
-function slientOperation(f: Function) {
+function aggregatedOperation(f: Function) {
   f()
-  console.log(easyCallback)
   easyCallback.forEach(c => c())
 }
 
@@ -251,6 +249,6 @@ export {
   unobserve,
   observeEasy,
   unobserveEasy,
-  slientOperation,
+  aggregatedOperation,
   ArrayPrototypeWrapperMap,
 }
