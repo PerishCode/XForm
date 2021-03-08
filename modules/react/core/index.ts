@@ -45,9 +45,13 @@ function XForm({
 
   useEffect(() => {
     if (!schema) return
-    if (transformer) render(transformer(schema))
-    else if (asyncTransformer) asyncTransformer(schema).then(render)
-    else render(schema)
+    // if (transformer) render(transformer(schema))
+    // else if (asyncTransformer) asyncTransformer(schema).then(render)
+    if (transformer) {
+      if (transformer.constructor.name === 'AsyncFunction')
+        transformer(schema).then(render)
+      else render(transformer(schema))
+    } else render(schema)
   }, [schema, transformer, asyncTransformer])
 
   return React.createElement('div', {

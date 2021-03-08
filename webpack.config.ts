@@ -73,7 +73,7 @@ export default {
     port: 2200,
     contentBase: resolve('public'),
     hot: true,
-    open: true,
+    open: false,
     stats: {
       chunks: false,
       modules: false,

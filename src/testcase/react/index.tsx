@@ -5,6 +5,7 @@ import {
   XObject,
   Info,
 } from '@modules/react/core/transformer/render'
+import transformer from '@modules/react/core/transformer/sync'
 
 // //验证基本功能
 // export default function TestCase() {
@@ -40,5 +41,5 @@ import {
 // }
 
 export default function TestCase() {
-  return <XForm schema={{}} />
+  return <XForm schema={{}} transformer={transformer} />
 }
