@@ -6,6 +6,7 @@ import {
   unobserveEasy,
   aggregatedOperation,
   wrapAsDependency,
+  combine,
 } from '@xform/reactive'
 import { Factory } from './engine'
 import { __render__, __withHooks__, __fragment__ } from './global'
@@ -14,23 +15,19 @@ interface XFormProps {
   schema?: any
   onChange?: Function
   transformer?: Function
-  asyncTransformer?: Function
+  extractor?: Function
 }
 
-function XForm({
-  schema,
-  onChange,
-  transformer,
-  asyncTransformer,
-}: XFormProps) {
+function XForm({ schema, onChange, transformer, extractor }: XFormProps) {
   const containerRef = useRef()
   const reactionRef = useRef()
 
   function render(source: any = null) {
     if (source) reactionRef.current = reactive(source)
+
     const reaction = reactionRef.current
 
-    onChange && onChange(reaction)
+    onChange && onChange(extractor ? extractor(reaction) : reaction)
     reaction &&
       ReactDOM.render(Factory({ schema: reaction }), containerRef.current)
   }
@@ -41,22 +38,18 @@ function XForm({
     }
     observeEasy(defaultRender)
     return () => unobserveEasy(defaultRender)
-  }, [])
+  }, [extractor])
 
   useEffect(() => {
-    if (!schema) return
-    // if (transformer) render(transformer(schema))
-    // else if (asyncTransformer) asyncTransformer(schema).then(render)
-    if (transformer) {
-      if (transformer.constructor.name === 'AsyncFunction')
-        transformer(schema).then(render)
-      else render(transformer(schema))
-    } else render(schema)
-  }, [schema, transformer, asyncTransformer])
+    schema &&
+      new Promise(resolve =>
+        resolve(transformer ? transformer(schema) : schema)
+      ).then(render)
+  }, [schema, transformer])
 
   return React.createElement('div', {
     ref: containerRef,
-    className: 'XForm root',
+    className: 'xform-root',
   })
 }
 
@@ -69,4 +62,5 @@ export {
   Factory,
   aggregatedOperation,
   wrapAsDependency,
+  combine,
 }

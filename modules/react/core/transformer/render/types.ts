@@ -3,6 +3,7 @@ interface RenderProps {
   index: any
   key?: any
   configuration?: any
+  children?: any
 }
 
 export { RenderProps }

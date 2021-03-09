@@ -14,11 +14,12 @@ function Factory({ schema, index, addition }: FactoryProps): any {
       index,
       key: index as any,
       configuration: typeof render === 'function' ? {} : render,
+      children: unit,
     }
 
     return actualRender[__fragment__]
-      ? render(props)
-      : React.createElement(render, props, unit)
+      ? actualRender(props)
+      : React.createElement(actualRender, props, unit)
   }, null)
 }
 
