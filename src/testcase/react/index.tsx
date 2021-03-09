@@ -1,11 +1,11 @@
-import XForm, { __render__, wrapAsDependency as $ } from '@modules/react/core'
+import XForm, { __render__, wrapAsDependency as $ } from '@xform/react'
 import {
   Input,
   XArray,
   XObject,
   Info,
-} from '@modules/react/core/transformer/render'
-import transformer from '@modules/react/core/transformer/sync'
+} from '@xform/react/dist/transformer/render'
+import transformer from '@xform/react/dist/transformer/sync'
 
 // //验证基本功能
 // export default function TestCase() {

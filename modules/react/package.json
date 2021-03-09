@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "@xform/reactive": "^0.0.1"
+    "react-dom": "^17.0.1"
   }
 }
