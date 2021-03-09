@@ -4,6 +4,6 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "npx tsc"
+    "build": "tsc"
   }
 }
