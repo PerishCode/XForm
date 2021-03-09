@@ -24,6 +24,8 @@ const baseHandlers: ProxyHandler<any> = {
     return raw2reaction.get(result) || reactive(result)
   },
   set(target, key, value) {
+    // console.log('set', key, value)
+
     if (isObject(value)) value = reaction2raw.get(value) || value
 
     const hasKey = Object.prototype.hasOwnProperty.call(target, key)

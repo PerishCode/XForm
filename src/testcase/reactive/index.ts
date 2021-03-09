@@ -2,8 +2,8 @@ import {
   reactive,
   wrapAsDependency as $,
   observeEasy,
-  slientOperation,
-} from '@modules/reactive/core'
+  aggregatedOperation,
+} from '@xform/reactive'
 // // 基本依赖关系 & 链式依赖关系验证
 // export default function Testcase() {
 
@@ -90,25 +90,14 @@ import {
 export default function Testcase() {
   const source = {
     a: [1, 2, 3, 4, 5],
-    b: $(node => {
-      let sum = 0
-      node.a.forEach(v => (sum += v))
-      console.log('computing b', sum)
-      return sum
-    }),
+    b: $(node => node.a.reduce((sum, v) => sum + v, 0)),
   }
 
   const result = reactive(source)
-
+  result.b
   observeEasy(() => {
     console.log('Haha')
   })
 
-  console.log('initialize')
-
-  result.b
-  console.log('-----')
-  slientOperation(() => {
-    result.a.splice(1, 1)
-  })
+  result.a.push(6)
 }

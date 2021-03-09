@@ -62,6 +62,8 @@ function aggregatedOperation(f: Function) {
 function mountCallback(callback: Callback, { target, key }: Operation) {
   let callbackMap = raw2callbackMap.get(target)
 
+  // console.log('mounting', key)
+
   if (callbackMap === undefined) {
     callbackMap = new Map()
     raw2callbackMap.set(target, callbackMap)
@@ -116,6 +118,8 @@ function triggerCallbackOfOperation(operation: Operation) {
   ) {
     callbackMap?.get(__iterate__)?.forEach(c => triggerSet.add(c))
   }
+
+  // if (triggerSet.size) console.log('triggering', key)
 
   triggerSet.forEach(c => c(operation))
 }
