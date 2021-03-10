@@ -150,9 +150,9 @@ function combine(source: Reaction, auxiliary: Reaction) {
     {},
     {
       get(_, key) {
-        return source[key] !== undefined
-          ? combine(source[key], auxiliary[key])
-          : auxiliary[key]
+        if (source[key] === undefined) return auxiliary[key]
+        if (typeof key === 'symbol') return combine(source[key], auxiliary[key])
+        return combine(source[key], auxiliary[key])
       },
       set(_, key, value) {
         return Reflect.get(raw, key) === undefined
