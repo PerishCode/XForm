@@ -1,9 +1,21 @@
 {
-  "name": "@xform/reactive",
+  "name": "@perish/reactive",
   "version": "0.0.1",
+  "description": "simple but powerful datamodel management API",
   "main": "dist/index.js",
-  "license": "MIT",
-  "scripts": {
-    "build": "tsc"
-  }
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PerishCode/XForm.git"
+  },
+  "keywords": [
+    "reactive",
+    "datamodel"
+  ],
+  "author": "PerishCode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PerishCode/XForm/issues"
+  },
+  "homepage": "https://github.com/PerishCode/XForm#readme"
 }

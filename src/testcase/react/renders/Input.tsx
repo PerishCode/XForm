@@ -1,7 +1,6 @@
-import { aggregatedOperation } from '../../index'
-import { RenderProps } from './types'
+import { aggregatedOperation } from '@perish/react-xform'
 
-function Input({ schema }: RenderProps) {
+function Input({ schema }) {
   return (
     <input
       className="xform-component__Input"

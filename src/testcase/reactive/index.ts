@@ -3,7 +3,7 @@ import {
   wrapAsDependency as $,
   observeEasy,
   aggregatedOperation,
-} from '@xform/reactive'
+} from '@perish/reactive'
 // // 基本依赖关系 & 链式依赖关系验证
 // export default function Testcase() {
 

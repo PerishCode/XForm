@@ -1,5 +1,5 @@
 import React from 'react'
-import { combine } from '@xform/reactive'
+import { combine } from '@perish/reactive'
 import { __fragment__, __render__, __withHooks__ } from './global'
 import { FactoryProps } from './types'
 

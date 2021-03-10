@@ -7,7 +7,7 @@ import {
   aggregatedOperation,
   wrapAsDependency,
   combine,
-} from '@xform/reactive'
+} from '@perish/reactive'
 import { Factory } from './engine'
 import { __render__, __withHooks__, __fragment__ } from './global'
 

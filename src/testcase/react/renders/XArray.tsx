@@ -1,7 +1,6 @@
-import { Factory, __fragment__ } from '../../index'
-import { RenderProps } from './types'
+import { Factory, __fragment__ } from '@perish/react-xform'
 
-function XArray({ schema }: RenderProps) {
+function XArray({ schema }) {
   return (schema.items as any[]).map((item, index) =>
     Factory({ schema: item, addition: schema.template, index })
   )

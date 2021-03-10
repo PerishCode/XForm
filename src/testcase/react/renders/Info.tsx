@@ -1,6 +1,4 @@
-import { RenderProps } from './types'
-
-function Info({ schema }: RenderProps) {
+function Info({ schema }) {
   return <div className="xform-component__Info">{schema.data}</div>
 }
 
