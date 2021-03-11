@@ -6,9 +6,8 @@ import {
   unobserveEasy,
   aggregatedOperation,
   wrapAsDependency,
-  combine,
 } from '@perish/reactive'
-import { Factory } from './engine'
+import { Factory, combine } from './engine'
 import { __render__, __withHooks__, __fragment__ } from './global'
 
 interface XFormProps {
@@ -24,7 +23,6 @@ function XForm({ schema, onChange, transformer, extractor }: XFormProps) {
 
   function render(source: any = null) {
     if (source) reactionRef.current = reactive(source)
-
     const reaction = reactionRef.current
 
     onChange && onChange(extractor ? extractor(reaction) : reaction)

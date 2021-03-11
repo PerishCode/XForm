@@ -1,5 +1,6 @@
 import React from 'react'
-import { combine } from '@perish/reactive'
+import { reaction2raw } from '@perish/reactive/dist/global'
+import { isObject } from '@perish/reactive/dist/utils'
 import { __fragment__, __render__, __withHooks__ } from './global'
 import { FactoryProps } from './types'
 
@@ -23,4 +24,36 @@ function Factory({ schema, index, addition }: FactoryProps): any {
   }, null)
 }
 
-export { Factory }
+function combine(source: any, auxiliary: any): any {
+  if (!isObject(source) || !isObject(auxiliary)) return source
+
+  const raw = reaction2raw.get(source) as any
+  return new Proxy<any>(
+    {},
+    {
+      get(_, key) {
+        const initial = source[key]
+        if (initial === undefined) return auxiliary[key]
+        if (!isObject(initial) || key === __render__) return initial
+        if (auxiliary[key] === undefined) auxiliary[key] = {}
+        return combine(initial, auxiliary[key])
+      },
+      set(_, key, value) {
+        return Reflect.get(raw, key) === undefined
+          ? Reflect.set(auxiliary, key, value)
+          : Reflect.set(source, key, value)
+      },
+      ownKeys() {
+        return Reflect.ownKeys(source)
+      },
+      getOwnPropertyDescriptor(_, key) {
+        return {
+          configurable: true,
+          enumerable: raw.constructor.prototype[key] === undefined,
+        }
+      },
+    }
+  )
+}
+
+export { Factory, combine }
