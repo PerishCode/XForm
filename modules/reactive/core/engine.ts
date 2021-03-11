@@ -8,14 +8,8 @@ import {
   raw2visited,
   reaction2raw,
 } from './global'
-import {
-  Callback,
-  Operation,
-  Reaction,
-  __iterate__,
-  __observed__,
-} from './types'
-import { isIterateFunction, isObject } from './utils'
+import { Callback, Operation, __iterate__, __observed__ } from './types'
+import { isIterateFunction } from './utils'
 
 let enableIterateCallback = true
 
@@ -142,36 +136,6 @@ function dealWithReadOperation({ target, key }: Operation) {
   return Reflect.get(target, key)
 }
 
-function combine(source: Reaction, auxiliary: Reaction) {
-  if (!isObject(source) || !isObject(auxiliary)) return source
-
-  const raw = reaction2raw.get(source)
-  return new Proxy<any>(
-    {},
-    {
-      get(_, key) {
-        if (source[key] === undefined) return auxiliary[key]
-        if (typeof key === 'symbol') return combine(source[key], auxiliary[key])
-        return combine(source[key], auxiliary[key])
-      },
-      set(_, key, value) {
-        return Reflect.get(raw, key) === undefined
-          ? Reflect.set(auxiliary, key, value)
-          : Reflect.set(source, key, value)
-      },
-      ownKeys() {
-        return Reflect.ownKeys(source)
-      },
-      getOwnPropertyDescriptor(_, key) {
-        return {
-          configurable: true,
-          enumerable: raw.constructor.prototype[key] === undefined,
-        }
-      },
-    }
-  )
-}
-
 const ArrayPrototypeWrapperMap = new Map<Function, Function>([
   [
     Array.prototype.splice,
@@ -244,7 +208,6 @@ export {
   registerDependency,
   dealWithReadOperation,
   triggerCallbackOfOperation,
-  combine,
   observe,
   unobserve,
   observeEasy,

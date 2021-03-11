@@ -1,10 +1,9 @@
 import { raw2reaction, reaction2raw } from './global'
 import { isObject } from './utils'
-import { Operation, Raw, __dependency__ } from './types'
+import { Raw, __dependency__ } from './types'
 import {
   observe,
   unobserve,
-  combine,
   observeEasy,
   unobserveEasy,
   aggregatedOperation,
@@ -31,7 +30,6 @@ export {
   observe,
   unobserve,
   wrapAsDependency,
-  combine,
   observeEasy,
   unobserveEasy,
   aggregatedOperation,
