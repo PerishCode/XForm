@@ -12,19 +12,27 @@ import { __render__, __withHooks__, __fragment__ } from './global'
 
 interface XFormProps {
   schema?: any
+  formData?: any
   onChange?: Function
   transformer?: Function
   extractor?: Function
+  composer?: Function
 }
 
-function XForm({ schema, onChange, transformer, extractor }: XFormProps) {
+function XForm({
+  schema,
+  formData,
+  onChange,
+  transformer,
+  extractor,
+  composer,
+}: XFormProps) {
   const containerRef = useRef()
   const reactionRef = useRef()
 
   function render(source: any = null) {
     if (source) reactionRef.current = reactive(source)
     const reaction = reactionRef.current
-
     onChange && onChange(extractor ? extractor(reaction) : reaction)
     reaction &&
       ReactDOM.render(Factory({ schema: reaction }), containerRef.current)
@@ -36,14 +44,14 @@ function XForm({ schema, onChange, transformer, extractor }: XFormProps) {
     }
     observeEasy(defaultRender)
     return () => unobserveEasy(defaultRender)
-  }, [extractor])
+  }, [])
 
   useEffect(() => {
     schema &&
-      new Promise(resolve =>
-        resolve(transformer ? transformer(schema) : schema)
-      ).then(render)
-  }, [schema, transformer])
+      new Promise(rs => rs(transformer ? transformer(schema) : schema))
+        .then(result => (composer ? composer(result, formData) : result))
+        .then(render)
+  }, [schema, transformer, formData, composer])
 
   return React.createElement('div', {
     ref: containerRef,

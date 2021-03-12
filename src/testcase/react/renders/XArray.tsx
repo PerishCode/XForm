@@ -1,8 +1,8 @@
 import { Factory, __fragment__ } from '@perish/react-xform'
 
 function XArray({ schema }) {
-  return (schema.items as any[]).map((item, index) =>
-    Factory({ schema: item, addition: schema.template, index })
+  return (schema.items || []).map((item, index) =>
+    Factory({ schema: schema.template, addition: item, index }),
   )
 }
 

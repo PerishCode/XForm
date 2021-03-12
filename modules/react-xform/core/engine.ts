@@ -3,6 +3,7 @@ import { reaction2raw } from '@perish/reactive/dist/global'
 import { isObject } from '@perish/reactive/dist/utils'
 import { __fragment__, __render__, __withHooks__ } from './global'
 import { FactoryProps } from './types'
+import { reactive } from '@perish/reactive'
 
 function Factory({ schema, index, addition }: FactoryProps): any {
   const combination = combine(schema, addition)
@@ -27,6 +28,7 @@ function Factory({ schema, index, addition }: FactoryProps): any {
 function combine(source: any, auxiliary: any): any {
   if (!isObject(source) || !isObject(auxiliary)) return source
 
+  source = reactive(source)
   const raw = reaction2raw.get(source) as any
   return new Proxy<any>(
     {},

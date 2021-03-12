@@ -1,6 +1,6 @@
 {
   "name": "@perish/react-xform",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JSONSchema-like configuration => Full-featured React Form Component",
   "main": "dist/index.js",
   "scripts": {

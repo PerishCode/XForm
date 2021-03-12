@@ -1,35 +1,33 @@
-import XForm, { __render__, wrapAsDependency as $ } from '@perish/react-xform'
-import { XArray, XObject, Info, Input } from './renders'
+import XForm from '@perish/react-xform'
+import transformer from './transformer'
+import extractor from './extractor'
+import composer from './composer'
 
 //验证基本功能
 export default function TestCase() {
   return (
-    <XForm
-      schema={{
-        [__render__]: [XObject],
-        properties: {
-          sum: {
-            [__render__]: [Info],
-            data: $(node => {
-              const { inputs } = node.$
-              let sum = 0
-              inputs.items.forEach(item => (sum += Number(item.data)))
-              return sum
-            }),
-          },
-          inputs: {
-            [__render__]: [XArray],
+    <div>
+      <XForm
+        schema={{
+          type: 'array',
+          template: {
+            type: 'array',
             template: {
-              [__render__]: [Input],
+              type: 'array',
+              template: {
+                type: 'string',
+                title: 'item',
+              },
             },
-            items: Array(1000)
-              .fill(null)
-              .map(() => ({
-                data: '0',
-              })),
           },
-        },
-      }}
-    />
+        }}
+        formData={[]}
+        transformer={transformer}
+        extractor={extractor}
+        composer={composer}
+        onChange={console.log}
+        // onChange={console.log}
+      />
+    </div>
   )
 }

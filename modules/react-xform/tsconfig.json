@@ -3,7 +3,7 @@
     "outDir": "dist",
     "target": "ES5",
     "module": "CommonJS",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "removeComments": false,
     "sourceMap": true,
     "declaration": true,
