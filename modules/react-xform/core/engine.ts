@@ -29,7 +29,10 @@ function combine(source: any, auxiliary: any): any {
   if (!isObject(source) || !isObject(auxiliary)) return source
 
   source = reactive(source)
+  auxiliary = reactive(auxiliary)
+
   const raw = reaction2raw.get(source) as any
+
   return new Proxy<any>(
     {},
     {

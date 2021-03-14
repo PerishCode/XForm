@@ -1,4 +1,5 @@
-import { isObject } from '@modules/reactive/dist/utils'
+import { combine } from '@perish/react-xform'
+import { isObject } from '@perish/reactive/dist/utils'
 
 const parser = {
   object: (schema, formData) => {
@@ -13,21 +14,25 @@ const parser = {
   },
   array: (schema, formData = []) => {
     const source = schema.items || []
-    schema.items = formData.map((data, i) => composer(source[i] || {}, data))
-    return schema
-  },
-  default: (schema, formData) => {
-    schema.data = formData
+    schema.items = formData.map((data, i) =>
+      composer(combine(schema.template, source[i] || {}), data),
+    )
     return schema
   },
 } as any
 
 export default function composer(schema, formData) {
+  if (schema.type === 'link') {
+    console.log(schema)
+    schema['uid'] = formData
+    return schema
+  }
   if (Array.isArray(formData)) return parser['array'](schema, formData)
   if (isObject(formData)) {
     if (schema.properties === undefined) schema.properties = {}
     return parser['object'](schema, formData)
   }
+
   schema['data'] = formData
   return schema
 }

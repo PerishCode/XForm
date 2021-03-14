@@ -1,33 +1,43 @@
+import { useState } from 'react'
 import XForm from '@perish/react-xform'
 import transformer from './transformer'
 import extractor from './extractor'
 import composer from './composer'
 
-//验证基本功能
 export default function TestCase() {
+  const [defaultData] = useState([
+    {
+      a: 'aaaa',
+    },
+  ])
+  const [formData, setFormData] = useState(null)
+  const [schema] = useState({
+    type: 'array',
+    template: {
+      type: 'object',
+      title: 'Link 类型测试',
+      properties: {
+        a: {
+          type: 'link',
+          title: '设备',
+          url: '/api/object',
+        },
+      },
+    },
+  })
+
   return (
     <div>
       <XForm
-        schema={{
-          type: 'array',
-          template: {
-            type: 'array',
-            template: {
-              type: 'array',
-              template: {
-                type: 'string',
-                title: 'item',
-              },
-            },
-          },
-        }}
-        formData={[]}
+        schema={schema}
+        formData={defaultData}
         transformer={transformer}
         extractor={extractor}
         composer={composer}
-        onChange={console.log}
-        // onChange={console.log}
+        onChange={setFormData}
       />
+
+      <pre>{JSON.stringify(formData, null, 2)}</pre>
     </div>
   )
 }
