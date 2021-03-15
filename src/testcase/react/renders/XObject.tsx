@@ -10,4 +10,5 @@ function XObject({ schema: { properties } }) {
 }
 
 XObject[__fragment__] = true
+
 export default XObject

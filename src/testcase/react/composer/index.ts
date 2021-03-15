@@ -1,38 +1,28 @@
-import { combine } from '@perish/react-xform'
-import { isObject } from '@perish/reactive/dist/utils'
+import { isObject, combine } from '../utils'
 
-const parser = {
+const parserMap = {
   object: (schema, formData) => {
     const { properties } = schema
 
     Object.keys(formData).forEach(key => {
-      if (properties[key] === undefined) properties[key] = {}
-      properties[key] = composer(properties[key], formData[key])
+      composer(properties[key], formData[key])
     })
 
-    return schema
+    // return schema
   },
-  array: (schema, formData = []) => {
-    const source = schema.items || []
-    schema.items = formData.map((data, i) =>
-      composer(combine(schema.template, source[i] || {}), data),
-    )
-    return schema
-  },
+  array: (schema, formData = []) =>
+    (schema.items = formData.map(data => {
+      const auxiliary = {}
+      const combination = combine(schema.template, auxiliary)
+      composer(combination, data)
+      return auxiliary
+    })),
+  link: (schema, formData) => (schema['uid'] = formData),
+  default: (schema, formData) => (schema['data'] = formData),
 } as any
 
 export default function composer(schema, formData) {
-  if (schema.type === 'link') {
-    console.log(schema)
-    schema['uid'] = formData
-    return schema
-  }
-  if (Array.isArray(formData)) return parser['array'](schema, formData)
-  if (isObject(formData)) {
-    if (schema.properties === undefined) schema.properties = {}
-    return parser['object'](schema, formData)
-  }
-
-  schema['data'] = formData
+  const parser = parserMap[schema.type] || parserMap['default']
+  parser(schema, formData)
   return schema
 }

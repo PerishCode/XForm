@@ -7,7 +7,7 @@ import {
   aggregatedOperation,
   wrapAsDependency,
 } from '@perish/reactive'
-import { Factory, combine } from './engine'
+import { Factory } from './engine'
 import { __render__, __withHooks__, __fragment__ } from './global'
 
 interface XFormProps {
@@ -68,5 +68,4 @@ export {
   Factory,
   aggregatedOperation,
   wrapAsDependency,
-  combine,
 }

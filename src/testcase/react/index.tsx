@@ -18,9 +18,8 @@ export default function TestCase() {
       title: 'Link 类型测试',
       properties: {
         a: {
-          type: 'link',
-          title: '设备',
-          url: '/api/object',
+          type: 'string',
+          title: 'Haha',
         },
       },
     },
@@ -36,7 +35,6 @@ export default function TestCase() {
         composer={composer}
         onChange={setFormData}
       />
-
       <pre>{JSON.stringify(formData, null, 2)}</pre>
     </div>
   )
