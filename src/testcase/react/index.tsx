@@ -4,38 +4,38 @@ import transformer from './transformer'
 import extractor from './extractor'
 import composer from './composer'
 
-export default function TestCase() {
-  const [defaultData] = useState([
-    {
-      a: 'aaaa',
-    },
-  ])
-  const [formData, setFormData] = useState(null)
-  const [schema] = useState({
-    type: 'array',
-    template: {
-      type: 'object',
-      title: 'Link 类型测试',
-      properties: {
-        a: {
-          type: 'string',
-          title: 'Haha',
-        },
-      },
-    },
+const defaultSchema = {
+  type: 'object',
+  title: '大量输入项测试',
+  properties: {},
+}
+
+Array(20)
+  .fill(0)
+  .forEach((_, i) => {
+    defaultSchema.properties['a' + i] = {
+      type: 'string',
+      title: 'Ding',
+    }
   })
+
+export default function TestCase() {
+  const [defaultData] = useState({})
+  const [formData, setFormData] = useState(null)
+  const [schema] = useState(defaultSchema)
 
   return (
     <div>
       <XForm
         schema={schema}
-        formData={defaultData}
         transformer={transformer}
+        formData={defaultData}
         extractor={extractor}
         composer={composer}
         onChange={setFormData}
       />
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
+
+      {/* <SchemaForm components={{ Input }} schema={schema} /> */}
     </div>
   )
 }
