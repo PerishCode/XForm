@@ -4,7 +4,6 @@
     "module": "commonjs",
     "baseUrl": ".",
     "paths": {
-      "@modules/*": ["modules/*"],
       "@/*": ["src/*"]
     },
     "allowSyntheticDefaultImports": true,

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ES5",
+    "module": "CommonJS",
+    "noImplicitAny": false,
+    "removeComments": false,
+    "sourceMap": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./core/*"]
+    }
+  },
+  "include": ["core/**/*"]
+}

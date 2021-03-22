@@ -5,15 +5,9 @@ import HTMLWebpackPlugin from 'html-webpack-plugin'
 export default {
   mode: 'development',
 
-  output: {
-    path: resolve('dist'),
-    publicPath: '',
-  },
-
   resolve: {
     alias: {
       'react-dom': '@hot-loader/react-dom',
-      '@modules': resolve('modules'),
       '@': resolve('src'),
     },
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -32,22 +26,12 @@ export default {
             options: {
               cacheDirectory: true,
               presets: ['@babel/preset-react', '@babel/preset-typescript'],
-              plugins: [
-                [
-                  'import',
-                  {
-                    libraryName: 'antd',
-                    style: 'css',
-                  },
-                ],
-              ],
             },
           },
         ],
       },
       {
         test: /\.sass$/,
-        exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
