@@ -34,8 +34,6 @@ export default function TestCase() {
         composer={composer}
         onChange={setFormData}
       />
-
-      {/* <SchemaForm components={{ Input }} schema={schema} /> */}
     </div>
   )
 }

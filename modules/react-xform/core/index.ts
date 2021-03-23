@@ -63,8 +63,8 @@ export default XForm
 
 export {
   __render__,
-  __withHooks__,
   __fragment__,
+  __withHooks__,
   Factory,
   aggregatedOperation,
   wrapAsDependency,

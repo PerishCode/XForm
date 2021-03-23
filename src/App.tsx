@@ -1,9 +1,13 @@
-import TestCase from '@/testcase/react'
+import XForm from '@perish/react-xform'
+import {} from '@perish/react-xform-jsonschema'
 
 export default function App() {
   return (
-    <div>
-      <TestCase />
-    </div>
+    <XForm
+      schema={{
+        type: 'object',
+        properties: {},
+      }}
+    />
   )
 }
