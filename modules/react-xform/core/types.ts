@@ -7,7 +7,6 @@ interface FactoryProps {
   schema: XSchema
   index?: Key
   path?: string
-  addition?: any
 }
 
 interface XSchema {
