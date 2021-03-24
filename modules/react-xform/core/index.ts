@@ -36,7 +36,6 @@ function XForm({ schema, onChange = () => {} }: XFormProps) {
     const reaction = reactionRef.current
     const container = containerRef.current
     ReactDOM.render(Factory({ schema: reaction }), container)
-    onChange(reaction)
   }, [schema])
 
   return React.createElement('div', {

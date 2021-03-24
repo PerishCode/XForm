@@ -1,15 +1,14 @@
 import { __render__ } from '@perish/react-xform'
-import { XArray, XObject, Input } from './renders'
-import Rules from './renders/Validator'
+import { XArray, XObject, Validator, Input } from './renders'
 
 const renderMap = {
   object: () => [XObject],
   array: () => [XArray],
-  string: () => [Input],
+  string: () => [Input, Validator],
   default: () => [],
 }
 
-const parser = {
+const processorMap = {
   object: async schema => {
     const { properties } = schema
     for (const key in properties)
@@ -35,12 +34,11 @@ async function transformer(schema) {
   if (schema['type'] === undefined) return schema
 
   const type = schema['type']
+  const render = renderMap[type] || renderMap['default']
+  const processor = processorMap[type] || processorMap['default']
 
-  const renderGenerator = renderMap[type] || renderMap['default']
-  const schemaParser = parser[type] || parser['default']
-
-  schema[__render__] = renderGenerator()
-  return schemaParser(schema)
+  schema[__render__] = render()
+  return processor(schema)
 }
 
 export default transformer

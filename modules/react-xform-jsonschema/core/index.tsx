@@ -16,26 +16,26 @@ export default function JSONSchemaXForm({
   onChange = () => {},
 }: Props) {
   const [parsedSchema, setParsedSchema] = useState(null)
-  const formDataRef = useRef(null)
+  const builtinFormData = useRef(formData)
 
   useEffect(() => {
     transformer(schema)
-      .then(result => composer(result, formDataRef.current))
+      .then(result => composer(result, builtinFormData.current))
       .then(setParsedSchema)
   }, [schema])
 
   useEffect(() => {
-    formData !== formDataRef.current &&
-      transformer(schema)
-        .then(result => composer(result, (formDataRef.current = formData)))
-        .then(setParsedSchema)
+    if (formData === builtinFormData.current) return
+    transformer(schema)
+      .then(result => composer(result, (builtinFormData.current = formData)))
+      .then(setParsedSchema)
   }, [formData])
 
   return (
     <XForm
       schema={parsedSchema}
-      onChange={updateSchema =>
-        onChange((formDataRef.current = extractor(updateSchema)))
+      onChange={update =>
+        onChange((builtinFormData.current = extractor(update)))
       }
     />
   )
