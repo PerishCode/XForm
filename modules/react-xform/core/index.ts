@@ -8,50 +8,36 @@ import {
   wrapAsDependency,
 } from '@perish/reactive'
 import { Factory } from './engine'
-import { __render__, __withHooks__, __fragment__ } from './global'
+import { __render__, __fragment__ } from './global'
 
 interface XFormProps {
   schema?: any
-  formData?: any
   onChange?: Function
-  transformer?: Function
-  extractor?: Function
-  composer?: Function
 }
 
-function XForm({
-  schema,
-  formData,
-  onChange,
-  transformer,
-  extractor,
-  composer,
-}: XFormProps) {
+function XForm({ schema, onChange = () => {} }: XFormProps) {
   const containerRef = useRef()
   const reactionRef = useRef()
 
-  function render(source: any = null) {
-    if (source) reactionRef.current = reactive(source)
-    const reaction = reactionRef.current
-    onChange && onChange(extractor ? extractor(reaction) : reaction)
-    reaction &&
-      ReactDOM.render(Factory({ schema: reaction }), containerRef.current)
-  }
-
   useEffect(() => {
-    function defaultRender() {
-      render()
+    function updateHandler() {
+      const reaction = reactionRef.current
+      const container = containerRef.current
+      ReactDOM.render(Factory({ schema: reaction }), container)
+      onChange(reaction)
     }
-    observeEasy(defaultRender)
-    return () => unobserveEasy(defaultRender)
+
+    observeEasy(updateHandler)
+    return () => unobserveEasy(updateHandler)
   }, [])
 
   useEffect(() => {
-    schema &&
-      new Promise(rs => rs(transformer ? transformer(schema) : schema))
-        .then(result => (composer ? composer(result, formData) : result))
-        .then(render)
-  }, [schema, transformer, formData, composer])
+    reactionRef.current = reactive(schema || {})
+    const reaction = reactionRef.current
+    const container = containerRef.current
+    ReactDOM.render(Factory({ schema: reaction }), container)
+    onChange(reaction)
+  }, [schema])
 
   return React.createElement('div', {
     ref: containerRef,
@@ -64,7 +50,6 @@ export default XForm
 export {
   __render__,
   __fragment__,
-  __withHooks__,
   Factory,
   aggregatedOperation,
   wrapAsDependency,
