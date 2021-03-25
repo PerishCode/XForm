@@ -1,39 +1,38 @@
 import { __render__ } from '@perish/react-xform'
-import HOC, { __depth__ } from './HOC'
-import {
-  XArray,
-  XObject,
-  Input,
-  Card as BasicCard,
-  Label as BasicLabel,
-} from './renders'
-
-const Card = HOC(BasicCard)
-const Label = HOC(BasicLabel)
+import { XArray, XObject, Input, Card, Label } from './renders'
+import { __depth__ } from './HOC'
 
 const renderMap = {
-  object: () => [XObject, Card],
-  array: () => [XArray, Card],
-  string: () => [Input, Label],
+  object: () => [XObject],
+  array: () => [XArray],
+  string: () => [Input],
   default: () => [],
 }
 
 const processorMap = {
   object: async schema => {
     const { properties } = schema
+
     for (const key in properties)
       properties[key] = await transformer(properties[key], {
         depth: schema[__depth__] + 1,
       })
+
+    schema.title && schema[__render__].push(Card)
     return schema
   },
   array: async schema => {
     schema.template = await transformer(schema.template || {}, {
       depth: schema[__depth__] + 1,
     })
+
+    schema.title && schema[__render__].push(Card)
     return schema
   },
-  default: schema => schema,
+  default: schema => {
+    schema.title && schema[__render__].push(Label)
+    return schema
+  },
 }
 
 async function transformer(schema: any, params: any = {}) {

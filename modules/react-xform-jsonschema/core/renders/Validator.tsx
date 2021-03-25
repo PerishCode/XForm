@@ -1,4 +1,4 @@
-import { RenderProps } from '../types'
+import { RenderProps } from './types'
 
 interface Rule {
   (data: any, parameters: any): any
@@ -16,19 +16,18 @@ const rules: {
 }
 
 export default function Validator({ schema, children }: RenderProps) {
-  return schema.data === undefined ? (
-    children
-  ) : (
+  return (
     <div className="Validator container">
       <div className="content">{children}</div>
       <div className="rules">
-        {Object.keys(rules)
-          .filter(key => schema[key] !== undefined)
-          .map(key => (
-            <div className="item" key={key}>
-              {rules[key](schema.data, schema[key])}
-            </div>
-          ))}
+        {schema.data !== undefined &&
+          Object.keys(rules)
+            .filter(key => schema[key] !== undefined)
+            .map(key => (
+              <div className="item" key={key}>
+                {rules[key](schema.data, schema[key])}
+              </div>
+            ))}
       </div>
     </div>
   )

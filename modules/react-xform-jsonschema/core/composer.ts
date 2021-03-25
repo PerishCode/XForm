@@ -20,7 +20,6 @@ const processorMap = {
 } as any
 
 export default function composer(schema, formData) {
-  if (schema === undefined) debugger
   const processor = processorMap[schema.type] || processorMap['default']
   processor(schema, formData)
   return schema

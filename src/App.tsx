@@ -10,6 +10,11 @@ export default function App() {
       type: 'object',
       properties: {
         a: {
+          title: '属性1',
+          type: 'string',
+        },
+        b: {
+          title: '属性2',
           type: 'string',
         },
       },
