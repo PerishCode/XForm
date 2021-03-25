@@ -2,11 +2,17 @@ import { useState } from 'react'
 import XForm from '@perish/react-xform-jsonschema'
 
 export default function App() {
-  const [formData, setFormData] = useState(['123'])
+  const [formData, setFormData] = useState([{ a: '123' }, { a: '123' }])
   const [schema] = useState({
     type: 'array',
+    title: 'array example',
     template: {
-      type: 'string',
+      type: 'object',
+      properties: {
+        a: {
+          type: 'string',
+        },
+      },
     },
   })
 

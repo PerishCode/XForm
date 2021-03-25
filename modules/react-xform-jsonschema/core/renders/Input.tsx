@@ -1,17 +1,11 @@
-import { aggregatedOperation } from '@perish/react-xform'
+import { aggregatedOperation as X } from '@perish/react-xform'
 
-function Input({ schema }) {
+export default function Input({ schema }) {
   return (
     <input
       className="Input"
       value={schema.data || ''}
-      onChange={e =>
-        aggregatedOperation(() => {
-          schema.data = e.target.value
-        })
-      }
+      onChange={e => X(() => (schema.data = e.target.value))}
     />
   )
 }
-
-export default Input

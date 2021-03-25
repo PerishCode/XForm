@@ -25,10 +25,10 @@ export default function JSONSchemaXForm({
   }, [schema])
 
   useEffect(() => {
-    if (formData === builtinFormData.current) return
-    transformer(schema)
-      .then(result => composer(result, (builtinFormData.current = formData)))
-      .then(setParsedSchema)
+    formData !== builtinFormData.current &&
+      transformer(schema)
+        .then(result => composer(result, (builtinFormData.current = formData)))
+        .then(setParsedSchema)
   }, [formData])
 
   return (
