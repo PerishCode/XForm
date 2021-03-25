@@ -1,23 +1,14 @@
 import React from 'react'
-import { __fragment__ } from '@perish/react-xform'
 
-const __depth__ = Symbol('depth of schema fragment')
+const __depth__ = Symbol('depth of schema definition')
 
 export default function HOC(render: any) {
-  return render[__fragment__]
-    ? render
-    : function ({ schema, index, children }) {
-        const extraProps = {
-          'data-depth': schema[__depth__] || 0,
-        }
-
-        if (typeof index === 'string') extraProps['data-index'] = index
-
-        return React.cloneElement(
-          render({ schema, index, children }),
-          extraProps
-        )
-      }
+  return function ({ schema, index, children }) {
+    return React.cloneElement(render({ schema, index, children }), {
+      'data-depth': schema[__depth__],
+      'data-index': index,
+    })
+  }
 }
 
 export { __depth__ }

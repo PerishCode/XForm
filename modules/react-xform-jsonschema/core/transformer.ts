@@ -1,6 +1,9 @@
 import { __render__ } from '@perish/react-xform'
 import { XArray, XObject, Input, Card, Label } from './renders'
-import { __depth__ } from './HOC'
+import HOC, { __depth__ } from './HOC'
+
+const XCard = HOC(Card)
+const XLabel = HOC(Label)
 
 const renderMap = {
   object: () => [XObject],
@@ -18,7 +21,7 @@ const processorMap = {
         depth: schema[__depth__] + 1,
       })
 
-    schema.title && schema[__render__].push(Card)
+    schema.title && schema[__render__].push(XCard)
     return schema
   },
   array: async schema => {
@@ -26,11 +29,11 @@ const processorMap = {
       depth: schema[__depth__] + 1,
     })
 
-    schema.title && schema[__render__].push(Card)
+    schema.title && schema[__render__].push(XCard)
     return schema
   },
   default: schema => {
-    schema.title && schema[__render__].push(Label)
+    schema.title && schema[__render__].push(XLabel)
     return schema
   },
 }

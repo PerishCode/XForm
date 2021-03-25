@@ -8,6 +8,7 @@ export default function App() {
     title: 'array example',
     template: {
       type: 'object',
+      title: 'object example',
       properties: {
         a: {
           title: '属性1',
