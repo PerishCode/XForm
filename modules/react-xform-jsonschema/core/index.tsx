@@ -16,6 +16,7 @@ export default function JSONSchemaXForm({
   onChange = () => {},
 }: Props) {
   const [parsedSchema, setParsedSchema] = useState(null)
+
   const builtinFormData = useRef(formData)
 
   useEffect(() => {
