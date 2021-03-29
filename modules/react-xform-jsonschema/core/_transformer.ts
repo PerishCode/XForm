@@ -1,5 +1,5 @@
 import { __render__ } from '@perish/react-xform'
-import { XArray, XObject, Input, Card, Label } from './renders'
+import { XArray, XObject, Input, Card, Label } from './_renders'
 import HOC, { __depth__ } from './HOC'
 
 const XCard = HOC(Card)
@@ -57,6 +57,7 @@ async function transformer(schema: any, params: any = {}) {
 
   schema[__depth__] = depth
   schema[__render__] = render()
+
   return processor(schema)
 }
 

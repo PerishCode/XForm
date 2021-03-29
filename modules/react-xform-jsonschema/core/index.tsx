@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import XForm from '@perish/react-xform'
-import transformer from './transformer'
-import extractor from './extractor'
-import composer from './composer'
+import transformer from './_transformer'
+import extractor from './_extractor'
+import composer from './_composer'
 
 interface Props {
   schema?: any
