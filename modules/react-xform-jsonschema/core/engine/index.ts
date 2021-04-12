@@ -1,15 +1,5 @@
-import { compile, compilerMap, Hooks } from './compiler'
+import { compile, CompilerCenter } from './compiler'
 import { compose, composerMap } from './composer'
 import { extract, extractorMap } from './extractor'
-import { renderMap } from './render'
 
-export {
-  compile,
-  compose,
-  extract,
-  compilerMap,
-  composerMap,
-  extractorMap,
-  renderMap,
-  Hooks,
-}
+export { compile, compose, extract, CompilerCenter, composerMap, extractorMap }

@@ -18,9 +18,11 @@ function XArray({ schema: { items = [], template } }) {
 function XObject({ schema: { properties = {} } }) {
   return Object.keys(properties).reduce((result, key) => {
     const children = Factory({ schema: properties[key], index: key })
+
     Array.isArray(children)
       ? (result = result.concat(children))
       : result.push(children)
+
     return result
   }, [] as any)
 }
@@ -34,4 +36,15 @@ const renderMap = new Map<string, Render>([
   ['default', () => null],
 ])
 
+function get(type: string) {
+  return renderMap.get(type) || renderMap.get('default')
+}
+
+function register() {}
+
 export { renderMap }
+
+export default {
+  get,
+  register,
+}
