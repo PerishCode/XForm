@@ -1,44 +1,34 @@
 import { __render__ } from '@perish/react-xform'
-import RenderCenter from './render'
-import { Input } from '../_renders'
+import { XArray, XObject } from './render'
 
-const compilerMap = new Map([
-  [
-    'object',
-    async (schema, params) => {
-      const { properties } = schema
-      for (const key in properties)
-        properties[key] = await compile(properties[key], params)
-      schema[__render__].push(RenderCenter.get('XObject'))
-      return schema
-    },
-  ],
-  [
-    'array',
-    async (schema, params) => {
-      schema.template = await compile(schema.template || {}, params)
-      schema[__render__].push(RenderCenter.get('XArray'))
-      return schema
-    },
-  ],
-  [
-    'string',
-    schema => {
-      schema[__render__].push(Input)
-      return schema
-    },
-  ],
-  ['default', schema => schema],
-])
-
-const CompilerCenter = {
-  get(type: string) {
-    return compilerMap.get(type) || compilerMap.get('default')
+/**
+ * 复杂类型 schema 定义处理方法
+ */
+const defaultCompilerMap = {
+  async object(schema) {
+    const { properties } = schema
+    for (const key in properties)
+      properties[key] = await compile(properties[key])
+    schema[__render__] = [XObject]
+    return schema
   },
-  register() {},
+  async array(schema) {
+    schema.template = await compile(schema.template || {})
+    schema[__render__] = [XArray]
+    return schema
+  },
+  async default(schema) {
+    schema[__render__] = []
+    return schema
+  },
 }
 
-async function compile(schema, params = {}) {
+/**
+ * render 生成方法
+ */
+const renderGeneratorMap = {}
+
+async function compile(schema) {
   if (schema['$ref']) {
     const response = await fetch(schema['$ref'])
     const json = await response.json()
@@ -47,9 +37,9 @@ async function compile(schema, params = {}) {
     return compile(result)
   }
 
-  schema[__render__] = []
-
-  return CompilerCenter.get(schema.type)(schema, params)
+  return (defaultCompilerMap[schema.type] || defaultCompilerMap['default'])(
+    schema
+  )
 }
 
-export { compile, CompilerCenter }
+export { compile }
