@@ -55,6 +55,7 @@ export default {
 
   devServer: {
     port: 2200,
+    host: '0.0.0.0',
     contentBase: resolve('public'),
     hot: true,
     open: false,

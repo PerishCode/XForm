@@ -1,4 +1,4 @@
-import { combine } from '../utils'
+import { combine } from './utils'
 
 const composerMap = {
   object(schema, data = {}) {
