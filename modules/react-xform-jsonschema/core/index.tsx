@@ -6,7 +6,6 @@ interface Props {
   schema?: any
   formData?: any
   onChange?: any
-  plugins?: any
 }
 
 async function parse(schema, data) {
@@ -19,7 +18,6 @@ export default function JSONSchemaXForm({
   schema = null,
   formData = null,
   onChange = () => {},
-  plugins = [],
 }: Props) {
   const [parsedSchema, setParsedSchema] = useState(null)
 
@@ -27,11 +25,13 @@ export default function JSONSchemaXForm({
   const dataRef = useRef(formData)
 
   useEffect(() => {
-    parse(schema, dataRef.current).then(setParsedSchema)
+    parse(JSON.parse(JSON.stringify(schema)), dataRef.current).then(
+      setParsedSchema
+    )
   }, [schema])
 
   useEffect(() => {
-    formData === dataRef.current &&
+    formData !== dataRef.current &&
       parse(schema, (dataRef.current = formData)).then(setParsedSchema)
   }, [formData])
 

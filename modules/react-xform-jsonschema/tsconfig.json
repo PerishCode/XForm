@@ -8,11 +8,7 @@
     "sourceMap": true,
     "declaration": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./core/*"]
-    }
+    "jsx": "react-jsx"
   },
   "include": ["core/**/*"]
 }
