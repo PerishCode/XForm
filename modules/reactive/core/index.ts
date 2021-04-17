@@ -25,6 +25,14 @@ function wrapAsDependency(f: Function) {
   return f
 }
 
+function getRaw(source: any) {
+  return reaction2raw.get(source)
+}
+
+function getReaction(source: any) {
+  return raw2reaction.get(source)
+}
+
 export {
   reactive,
   observe,
@@ -33,4 +41,6 @@ export {
   observeEasy,
   unobserveEasy,
   aggregatedOperation,
+  getRaw,
+  getReaction,
 }

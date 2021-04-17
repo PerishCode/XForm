@@ -1,6 +1,14 @@
 import { __render__ } from '@perish/react-xform'
-import { reactive } from '@perish/reactive'
-import { reaction2raw } from '@perish/reactive/dist/global'
+import { reactive, getRaw } from '@perish/reactive'
+type Schema = any
+
+interface Extractor {
+  (schema: Schema): any
+}
+
+interface ExtractorMap {
+  [key: string]: Extractor
+}
 
 function isObject(source) {
   return source !== null && typeof source === 'object'
@@ -12,7 +20,7 @@ function combine(source: any, auxiliary: any): any {
   source = reactive(source)
   auxiliary = reactive(auxiliary)
 
-  const raw = reaction2raw.get(source) as any
+  const raw = getRaw(source)
 
   return new Proxy<any>(
     {},
@@ -42,4 +50,4 @@ function combine(source: any, auxiliary: any): any {
   )
 }
 
-export { isObject, combine }
+export { combine, Schema, ExtractorMap }

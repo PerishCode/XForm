@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import XForm from '@perish/react-xform-jsonschema'
+import { Form } from './examples'
 
 export default function App() {
   const [formData, setFormData] = useState([{ a: '123' }, { a: '123' }])
@@ -23,9 +23,9 @@ export default function App() {
   })
 
   return (
-    <>
-      <XForm schema={schema} formData={formData} onChange={setFormData} />
+    <div>
+      <Form schema={schema} formData={formData} onChange={setFormData} />
       <pre>{JSON.stringify(formData, null, 2)}</pre>
-    </>
+    </div>
   )
 }

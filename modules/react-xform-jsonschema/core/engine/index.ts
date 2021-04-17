@@ -1,5 +1,16 @@
-import { transpile } from './transpiler'
-import { compose } from './composer'
-import { extract } from './extractor'
+import TranspilerFactory from './transpiler'
+import ComposerFactory from './composer'
+import ExtractorFactory from './extractor'
 
-export { transpile, compose, extract }
+const defaultTranspiler = TranspilerFactory()
+const defaultComposer = ComposerFactory()
+const defualtExtractor = ExtractorFactory()
+
+export {
+  defaultTranspiler,
+  defaultComposer,
+  defualtExtractor,
+  TranspilerFactory,
+  ComposerFactory,
+  ExtractorFactory,
+}

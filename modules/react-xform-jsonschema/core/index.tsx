@@ -1,44 +1,51 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import XForm from '@perish/react-xform'
-import { transpile, extract, compose } from './engine'
+import {
+  defaultTranspiler,
+  defaultComposer,
+  defualtExtractor,
+  TranspilerFactory,
+  ComposerFactory,
+  ExtractorFactory,
+} from './engine'
 
 interface Props {
   schema?: any
   formData?: any
   onChange?: any
+  extensions?: any
 }
 
-async function parse(schema, data) {
-  schema = await transpile(schema)
-  schema = await compose(schema, data)
-  return schema
-}
-
-export default function JSONSchemaXForm({
+function JSONSchemaXForm({
   schema = null,
   formData = null,
   onChange = () => {},
+  extensions = {},
 }: Props) {
   const [parsedSchema, setParsedSchema] = useState(null)
 
-  // 组件内部维护 formData
-  const dataRef = useRef(formData)
+  const {
+    transpile = defaultTranspiler,
+    compose = defaultComposer,
+    extract = defualtExtractor,
+  } = extensions
 
   useEffect(() => {
-    parse(JSON.parse(JSON.stringify(schema)), dataRef.current).then(
-      setParsedSchema
-    )
-  }, [schema])
-
-  useEffect(() => {
-    formData !== dataRef.current &&
-      parse(schema, (dataRef.current = formData)).then(setParsedSchema)
-  }, [formData])
+    transpile(JSON.parse(JSON.stringify(schema)))
+      .then(s => compose(s, formData))
+      .then(setParsedSchema)
+  }, [schema, formData])
 
   return (
     <XForm
       schema={parsedSchema}
-      onChange={update => onChange((dataRef.current = extract(update)))}
+      onChange={update => onChange(extract(update))}
     />
   )
 }
+
+export default memo(JSONSchemaXForm, (prev, next) => {
+  return prev.schema !== next.schema
+})
+
+export { TranspilerFactory, ComposerFactory, ExtractorFactory }
