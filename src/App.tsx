@@ -2,20 +2,20 @@ import { useState } from 'react'
 import { Form } from './examples'
 
 export default function App() {
-  const [formData, setFormData] = useState([{ a: '123' }, { a: '123' }])
+  const [formData, setFormData] = useState([{ name: '张三' }, { name: '李四' }])
   const [schema] = useState({
     type: 'array',
-    title: 'array example',
+    title: '用户列表',
     template: {
       type: 'object',
-      title: 'object example',
+      title: '用户信息',
       properties: {
-        a: {
-          title: '属性1',
+        name: {
+          title: '姓名',
           type: 'string',
         },
-        b: {
-          title: '属性2',
+        sex: {
+          title: '性别',
           type: 'string',
         },
       },

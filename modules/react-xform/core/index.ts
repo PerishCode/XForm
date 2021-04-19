@@ -40,7 +40,7 @@ function XForm({ schema, onChange = () => {} }: XFormProps) {
 
   return React.createElement('div', {
     ref: containerRef,
-    className: 'xform-root',
+    className: 'xform',
   })
 }
 

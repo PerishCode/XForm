@@ -1,6 +1,8 @@
 import { Configuration, ProvidePlugin } from 'webpack'
 import { resolve } from 'path'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
 export default {
   mode: 'development',
@@ -36,7 +38,24 @@ export default {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                ident: 'postcss',
+                plugins: [tailwindcss, autoprefixer],
+              },
+            },
+          },
+        ],
       },
     ],
   },
