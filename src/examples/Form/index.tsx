@@ -1,4 +1,4 @@
-import XForm from '@perish/react-xform-jsonschema'
+import XForm from '@x-form/react-jsonschema'
 import transpile from './transpiler'
 
 export default function Form({ schema, formData, onChange }) {

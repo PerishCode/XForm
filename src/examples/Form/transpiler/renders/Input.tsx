@@ -1,4 +1,4 @@
-import { aggregatedOperation as Do } from '@perish/react-xform'
+import { aggregatedOperation as Do } from '@x-form/react'
 
 export default function Input({ schema }) {
   return (

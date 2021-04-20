@@ -1,4 +1,4 @@
-import { TranspilerFactory } from '@perish/react-xform-jsonschema'
+import { TranspilerFactory } from '@x-form/react-jsonschema'
 import injectors from './injectors'
 import generators from './generators'
 

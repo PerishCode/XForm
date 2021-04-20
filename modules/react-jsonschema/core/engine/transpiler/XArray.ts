@@ -1,4 +1,4 @@
-import { Factory, __fragment__ } from '@perish/react-xform'
+import { Factory, __fragment__ } from '@x-form/react'
 import { combine } from '../global'
 
 function XArray({ schema: { items = [], template } }) {

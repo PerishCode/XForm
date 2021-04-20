@@ -1,5 +1,5 @@
 {
-  "name": "@perish/react-xform",
+  "name": "@x-form/react",
   "version": "0.0.1",
   "description": "JSONSchema-like configuration => Full-featured React Form Component",
   "main": "dist/index.js",
@@ -23,6 +23,6 @@
   "peerDependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "@perish/reactive": "0.0.1"
+    "@x-form/model": "0.0.1"
   }
 }

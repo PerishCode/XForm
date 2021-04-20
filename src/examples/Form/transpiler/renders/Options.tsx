@@ -1,4 +1,4 @@
-import { aggregatedOperation as Do, __fragment__ } from '@perish/react-xform'
+import { aggregatedOperation as Do, __fragment__ } from '@x-form/react'
 
 function Options({ schema, children }) {
   const { items, initialText } = schema

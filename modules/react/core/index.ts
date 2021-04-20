@@ -6,7 +6,7 @@ import {
   unobserveEasy,
   aggregatedOperation,
   wrapAsDependency,
-} from '@perish/reactive'
+} from '@x-form/model'
 import { Factory } from './engine'
 import { __render__, __fragment__ } from './global'
 

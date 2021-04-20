@@ -1,4 +1,4 @@
-import { __render__ } from '@perish/react-xform'
+import { __render__ } from '@x-form/react'
 import XObject from './XObject'
 import XArray from './XArray'
 

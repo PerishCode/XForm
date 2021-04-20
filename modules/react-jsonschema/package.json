@@ -1,5 +1,5 @@
 {
-  "name": "@perish/react-xform-jsonschema",
+  "name": "@x-form/react-jsonschema",
   "version": "0.0.1",
   "description": "Basic component & 'Compiler' that can transform jsonschema into react-xform schema ",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
   "peerDependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "@perish/reactive": "0.0.1",
-    "@perish/react-xform": "0.0.4"
+    "@x-form/model": "0.0.1",
+    "@x-form/react": "0.0.1"
   }
 }

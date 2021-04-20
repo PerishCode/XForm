@@ -1,4 +1,4 @@
-import { __render__ } from '@perish/react-xform'
+import { __render__ } from '@x-form/react'
 import renders from './renders'
 import HOC from './HOC'
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, memo } from 'react'
-import XForm from '@perish/react-xform'
+import XForm from '@x-form/react'
 import {
   defaultTranspiler,
   defaultComposer,

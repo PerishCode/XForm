@@ -1,4 +1,4 @@
-import { Factory, __fragment__ } from '@perish/react-xform'
+import { Factory, __fragment__ } from '@x-form/react'
 
 function XObject({ schema: { properties = {} } }) {
   return Object.keys(properties).reduce((result, key) => {

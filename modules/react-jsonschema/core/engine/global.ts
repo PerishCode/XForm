@@ -1,5 +1,5 @@
-import { __render__ } from '@perish/react-xform'
-import { reactive, getRaw } from '@perish/reactive'
+import { __render__ } from '@x-form/react'
+import { reactive, getRaw } from '@x-form/model'
 type Schema = any
 
 interface Extractor {
