@@ -28,7 +28,7 @@ function combine(source: any, auxiliary: any): any {
       get(_, key) {
         const initial = source[key]
         if (initial === undefined) return auxiliary[key]
-        if (!isObject(initial) || key === __render__) return initial
+        if (!isObject(initial) || Array.isArray(initial)) return initial
         if (auxiliary[key] === undefined) auxiliary[key] = {}
         return combine(initial, auxiliary[key])
       },

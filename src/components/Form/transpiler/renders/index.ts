@@ -1,5 +1,9 @@
-/* 数据组件 */
+/* 基础组件 */
 import Input from './Input'
+import Select from './Select'
+/* ------- */
+
+/* 高阶组件 */
 import Options from './Options'
 /* ------- */
 
@@ -8,4 +12,4 @@ import Card from './Card'
 import Label from './Label'
 /* ------- */
 
-export default { Input, Options, Card, Label }
+export default { Input, Select, Options, Card, Label }
