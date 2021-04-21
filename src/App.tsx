@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { Form } from './examples'
+import { Form, Editor, Viewer } from './components'
+import 'jsoneditor/dist/jsoneditor.css'
+import './App.sass'
 
 export default function App() {
   const [formData, setFormData] = useState([{ name: '张三' }, { name: '李四' }])
-  const [schema] = useState({
+  const [schema, setSchema] = useState({
     type: 'array',
     title: '用户列表',
     template: {
@@ -23,9 +25,15 @@ export default function App() {
   })
 
   return (
-    <div>
-      <Form schema={schema} formData={formData} onChange={setFormData} />
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
-    </div>
+    <>
+      <Editor className="editor" json={schema} onChange={setSchema} />
+      <Form
+        className="form"
+        schema={schema}
+        formData={formData}
+        onChange={setFormData}
+      />
+      <Viewer className="preview" json={formData} />
+    </>
   )
 }

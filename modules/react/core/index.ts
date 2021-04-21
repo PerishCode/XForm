@@ -12,10 +12,11 @@ import { __render__, __fragment__ } from './global'
 
 interface XFormProps {
   schema?: any
+  className?: string
   onChange?: Function
 }
 
-function XForm({ schema, onChange = () => {} }: XFormProps) {
+function XForm({ schema, onChange = () => {}, className }: XFormProps) {
   const containerRef = useRef()
   const reactionRef = useRef()
 
@@ -40,7 +41,7 @@ function XForm({ schema, onChange = () => {} }: XFormProps) {
 
   return React.createElement('div', {
     ref: containerRef,
-    className: 'xform',
+    className: className ?? 'xform',
   })
 }
 

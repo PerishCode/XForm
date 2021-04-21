@@ -1,4 +1,4 @@
-import { useEffect, useState, memo } from 'react'
+import { useEffect, useState, memo, useRef } from 'react'
 import XForm from '@x-form/react'
 import {
   defaultTranspiler,
@@ -14,6 +14,7 @@ interface Props {
   formData?: any
   onChange?: any
   extensions?: any
+  className?: string
 }
 
 function JSONSchemaXForm({
@@ -21,8 +22,10 @@ function JSONSchemaXForm({
   formData = null,
   onChange = () => {},
   extensions = {},
+  className,
 }: Props) {
   const [parsedSchema, setParsedSchema] = useState(null)
+  const innerDataRef = useRef(formData)
 
   const {
     transpile = defaultTranspiler,
@@ -32,20 +35,26 @@ function JSONSchemaXForm({
 
   useEffect(() => {
     transpile(JSON.parse(JSON.stringify(schema)))
-      .then(s => compose(s, formData))
+      .then(s => compose(s, innerDataRef.current))
       .then(setParsedSchema)
-  }, [schema, formData])
+  }, [schema])
+
+  useEffect(() => {
+    innerDataRef.current !== formData &&
+      transpile(JSON.parse(JSON.stringify(schema)))
+        .then(s => compose(s, (innerDataRef.current = formData)))
+        .then(setParsedSchema)
+  }, [formData])
 
   return (
     <XForm
+      className={className}
       schema={parsedSchema}
-      onChange={update => onChange(extract(update))}
+      onChange={update => onChange((innerDataRef.current = extract(update)))}
     />
   )
 }
 
-export default memo(JSONSchemaXForm, (prev, next) => {
-  return prev.schema !== next.schema
-})
+export default JSONSchemaXForm
 
 export { TranspilerFactory, ComposerFactory, ExtractorFactory }
