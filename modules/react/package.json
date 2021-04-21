@@ -1,6 +1,6 @@
 {
   "name": "@x-form/react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JSONSchema-like configuration => Full-featured React Form Component",
   "main": "dist/index.js",
   "scripts": {

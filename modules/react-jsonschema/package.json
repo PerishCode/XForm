@@ -1,6 +1,6 @@
 {
   "name": "@x-form/react-jsonschema",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Basic component & 'Compiler' that can transform jsonschema into react-xform schema ",
   "main": "dist/index.js",
   "scripts": {
@@ -24,6 +24,6 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "@x-form/model": "0.0.1",
-    "@x-form/react": "0.0.1"
+    "@x-form/react": "0.0.2"
   }
 }
