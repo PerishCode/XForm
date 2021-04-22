@@ -6,4 +6,4 @@ export const initialSchema = {
   },
 }
 
-export const initialData = []
+export const initialData = null

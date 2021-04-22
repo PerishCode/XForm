@@ -2,13 +2,15 @@ import { combine, Schema } from './global'
 
 export default function ComposerFactory(extensions = {}) {
   const composerMap = {
-    object(schema: Schema, data = {}) {
+    object(schema: Schema, data) {
       const { properties } = schema
-      Object.keys(data).forEach(key => compose(properties[key], data[key]))
+      Object.keys(data ?? {}).forEach(key =>
+        compose(properties[key], data[key])
+      )
       return schema
     },
-    array(schema: Schema, data = []) {
-      schema.items = data.map(itemData =>
+    array(schema: Schema, data) {
+      schema.items = (data ?? []).map(itemData =>
         compose(combine(schema.template, {}), itemData)
       )
       return schema
