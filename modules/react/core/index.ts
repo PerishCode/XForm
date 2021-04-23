@@ -21,10 +21,10 @@ function XForm({ schema, onChange = () => {}, className }: XFormProps) {
   const reactionRef = useRef()
 
   useEffect(() => {
-    function updateHandler() {
+    function updateHandler(rerender = true) {
       const reaction = reactionRef.current
       const container = containerRef.current
-      ReactDOM.render(Factory({ schema: reaction }), container)
+      rerender && ReactDOM.render(Factory({ schema: reaction }), container)
       onChange(reaction)
     }
 

@@ -1,9 +1,13 @@
-import { __depth__ } from './HOC'
+import { __depth__ } from './renders'
 
 export default [
   (schema, params) => {
-    const depth = params[__depth__] ?? 0
+    let depth = params[__depth__] ?? 0
     schema[__depth__] = depth
-    params[__depth__] = depth + 1
+
+    return {
+      ...params,
+      [__depth__]: depth + 1,
+    }
   },
 ]

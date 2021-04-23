@@ -1,4 +1,4 @@
-import { aggregatedOperation as Do, __fragment__ } from '@x-form/react'
+import { Do, __fragment__ } from '@x-form/react-jsonschema'
 
 function Options({ schema, children }) {
   const { items, initialText } = schema

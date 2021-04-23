@@ -1,5 +1,9 @@
-import { useEffect, useState, memo, useRef } from 'react'
-import XForm from '@x-form/react'
+import { useEffect, useState, useRef } from 'react'
+import XForm, {
+  aggregatedOperation as Do,
+  __fragment__,
+  __render__,
+} from '@x-form/react'
 import {
   defaultTranspiler,
   defaultComposer,
@@ -57,4 +61,11 @@ function JSONSchemaXForm({
 
 export default JSONSchemaXForm
 
-export { TranspilerFactory, ComposerFactory, ExtractorFactory }
+export {
+  TranspilerFactory,
+  ComposerFactory,
+  ExtractorFactory,
+  Do,
+  __fragment__,
+  __render__,
+}

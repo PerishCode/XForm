@@ -48,9 +48,9 @@ function unobserveEasy(f: Function) {
   easyCallback.delete(f)
 }
 
-function aggregatedOperation(f: Function) {
+function aggregatedOperation(f: Function, params?: any) {
   f()
-  easyCallback.forEach(c => c())
+  easyCallback.forEach(c => c(params))
 }
 
 function mountCallback(callback: Callback, { target, key }: Operation) {

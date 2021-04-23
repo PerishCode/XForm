@@ -1,8 +1,11 @@
 export const initialSchema = {
   type: 'array',
   template: {
-    type: 'string',
-    enum: ['选项一', '选项二'],
+    type: 'array',
+    template: {
+      type: 'string',
+      enum: ['选项一', '选项二'],
+    },
   },
 }
 

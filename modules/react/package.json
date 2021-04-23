@@ -1,6 +1,6 @@
 {
   "name": "@x-form/react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JSONSchema-like configuration => Full-featured React Form Component",
   "main": "dist/index.js",
   "scripts": {
@@ -23,6 +23,6 @@
   "peerDependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "@x-form/model": "0.0.1"
+    "@x-form/model": "0.0.2"
   }
 }

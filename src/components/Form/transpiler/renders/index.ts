@@ -12,4 +12,12 @@ import Card from './Card'
 import Label from './Label'
 /* ------- */
 
-export default { Input, Select, Options, Card, Label }
+import HOC, { __depth__ } from './HOC'
+
+const renders = { Input, Select, Options, Card, Label }
+
+Object.keys(renders).forEach(key => (renders[key] = HOC(renders[key])))
+
+export default renders
+
+export { __depth__ }

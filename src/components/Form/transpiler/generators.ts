@@ -1,8 +1,5 @@
-import { __render__ } from '@x-form/react'
+import { __render__ } from '@x-form/react-jsonschema'
 import renders from './renders'
-import HOC from './HOC'
-
-Object.keys(renders).forEach(key => (renders[key] = HOC(renders[key])))
 
 const { Input, Select, Label, Options, Card } = renders
 

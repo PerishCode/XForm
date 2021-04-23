@@ -1,6 +1,6 @@
 {
   "name": "@x-form/model",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "simple but powerful datamodel management API",
   "main": "dist/index.js",
   "scripts": {},

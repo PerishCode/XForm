@@ -1,5 +1,5 @@
 import { cloneElement } from 'react'
-import { __fragment__ } from '@x-form/react'
+import { __fragment__ } from '@x-form/react-jsonschema'
 
 const __depth__ = Symbol('data item depth')
 
