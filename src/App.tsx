@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Form, Editor, Viewer } from './components'
 import { initialData, initialSchema } from './schemas/select'
 import 'jsoneditor/dist/jsoneditor.css'
-import './App.sass'
+import './App.less'
 
 export default function App() {
   const [formData, setFormData] = useState(initialData)

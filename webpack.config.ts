@@ -1,8 +1,7 @@
 import { Configuration, ProvidePlugin } from 'webpack'
 import { resolve } from 'path'
+import { readdir } from 'fs/promises'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
-import tailwindcss from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
 
 export default {
   mode: 'development',
@@ -33,40 +32,16 @@ export default {
         ],
       },
       {
-        test: /\.sass$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                ident: 'postcss',
-                plugins: [tailwindcss, autoprefixer],
-              },
-            },
-          },
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.svg$/,
-        use: [
-          {
-            loader: 'svg-url-loader',
-            options: {
-              limit: 10000,
-            },
-          },
-        ],
+        use: ['svg-url-loader'],
       },
     ],
   },
@@ -101,5 +76,12 @@ export default {
       version: false,
       warnings: false,
     },
+    // async before(app) {
+    //   for (const api of await readdir(resolve('mock'))) {
+    //     const { default: config } = await import(resolve('mock/' + api))
+
+    //     console.log(config, 'haha')
+    //   }
+    // },
   },
 } as Configuration
