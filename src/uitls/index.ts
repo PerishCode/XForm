@@ -20,13 +20,11 @@ export function split(initialSchema: any, uid: string = '') {
     array(schema) {
       const { type } = schema.template
 
-      if (type !== 'object' || type !== 'array') {
-        const result = recursive(schema.template)
+      if (type === 'object' || type === 'array')
         schema.template = {
           type: 'embedded',
-          [symbols.ref]: insertDefinition(result),
+          [symbols.ref]: registerDefinition(recursive(schema.template)),
         }
-      }
 
       return schema
     },
@@ -38,7 +36,7 @@ export function split(initialSchema: any, uid: string = '') {
   const recursive = (schema: any) =>
     (handlers[schema.type] || handlers['default'])(schema)
 
-  function insertDefinition(definition: any) {
+  function registerDefinition(definition: any) {
     const key = uid + '$' + countRef.current++
     definitions[key] = definition
     return key
