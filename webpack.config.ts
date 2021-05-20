@@ -1,6 +1,5 @@
 import { Configuration, ProvidePlugin } from 'webpack'
 import { resolve } from 'path'
-import { readdir } from 'fs/promises'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
 
 export default {
@@ -76,12 +75,5 @@ export default {
       version: false,
       warnings: false,
     },
-    // async before(app) {
-    //   for (const api of await readdir(resolve('mock'))) {
-    //     const { default: config } = await import(resolve('mock/' + api))
-
-    //     console.log(config, 'haha')
-    //   }
-    // },
   },
 } as Configuration

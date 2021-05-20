@@ -14,16 +14,16 @@ const BoxComponent = {
 }
 
 export default [
-  schema => {
+  (schema: any) => {
     if (schema.enum) {
       schema[__render__].push(Select)
     } else {
-      DataComponent[schema.type] &&
-        schema[__render__].push(...DataComponent[schema.type]())
+      const append = DataComponent[schema.type]
+      append && (schema[__render__] = schema[__render__].concat(append()))
     }
   },
 
-  schema => {
+  (schema: any) => {
     BoxComponent[schema.type] &&
       schema[__render__].push(...BoxComponent[schema.type]())
   },

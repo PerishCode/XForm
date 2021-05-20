@@ -1,7 +1,17 @@
-import { combine, Schema, ExtractorMap } from './global'
+import { combine } from '../global'
+import { Schema } from '../types'
+
+interface Extractor {
+  (schema: Schema): any
+}
+
+interface ExtractorMap {
+  [key: string]: Extractor
+}
 
 export default function ExtractorFactory(extensions: ExtractorMap = {}) {
   const extractorMap: ExtractorMap = {
+    ...extensions,
     object: ({ properties = {} }) =>
       Object.keys(properties).reduce((result, key) => {
         result[key] = extract(properties[key])
@@ -11,7 +21,6 @@ export default function ExtractorFactory(extensions: ExtractorMap = {}) {
       (schema.items || []).map(item => extract(combine(schema.template, item))),
     number: schema => Number(schema.data),
     default: schema => schema.data,
-    ...extensions,
   }
 
   function extract(schema: Schema) {

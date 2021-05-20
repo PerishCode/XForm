@@ -1,13 +1,8 @@
 import { __depth__ } from './renders'
 
 export default [
-  (schema, params) => {
-    let depth = params[__depth__] ?? 0
-    schema[__depth__] = depth
-
-    return {
-      ...params,
-      [__depth__]: depth + 1,
-    }
-  },
+  (schema: any, params: any) =>
+    Object.assign(params, {
+      [__depth__]: (schema[__depth__] = params[__depth__] ?? 0) + 1,
+    }),
 ]

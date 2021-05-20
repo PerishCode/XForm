@@ -1,16 +1,7 @@
 import { __render__ } from '@x-form/react'
 import { reactive, getRaw } from '@x-form/model'
-type Schema = any
 
-interface Extractor {
-  (schema: Schema): any
-}
-
-interface ExtractorMap {
-  [key: string]: Extractor
-}
-
-function isObject(source) {
+function isObject(source: any) {
   return source !== null && typeof source === 'object'
 }
 
@@ -50,4 +41,4 @@ function combine(source: any, auxiliary: any): any {
   )
 }
 
-export { combine, Schema, ExtractorMap }
+export { combine }

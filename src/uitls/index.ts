@@ -10,14 +10,14 @@ export function split(initialSchema: any, uid: string = '') {
   const definitions = {}
 
   const handlers = {
-    object(schema) {
+    object(schema: any) {
       const { properties } = schema
       Object.keys(properties).forEach(
         key => (properties[key] = recursive(properties[key]))
       )
       return schema
     },
-    array(schema) {
+    array(schema: any) {
       const { type } = schema.template
 
       if (type === 'object' || type === 'array')
@@ -28,7 +28,7 @@ export function split(initialSchema: any, uid: string = '') {
 
       return schema
     },
-    default(schema) {
+    default(schema: any) {
       return schema
     },
   }
@@ -47,29 +47,30 @@ export function split(initialSchema: any, uid: string = '') {
 
 export function compose({ schema: initialSchema, definitions }: any) {
   const handlers = {
-    object(schema) {
+    object(schema: any) {
       const { properties } = schema
       Object.keys(properties).forEach(
         key => (properties[key] = recursive(properties[key]))
       )
       return schema
     },
-    array(schema) {
+    array(schema: any) {
       schema.template = recursive(schema.template)
       return schema
     },
-    embedded(schema) {
+    embedded(schema: any) {
       const ref = schema[symbols.ref]
       const result = JSON.parse(JSON.stringify(definitions[ref]))
       return recursive(result)
     },
-    default(schema) {
+    default(schema: any) {
       return schema
     },
   }
 
-  const recursive = (schema: any) =>
-    (handlers[schema.type] || handlers['default'])(schema)
+  function recursive(schema: any) {
+    return (handlers[schema.type] || handlers['default'])(schema)
+  }
 
   return recursive(initialSchema)
 }

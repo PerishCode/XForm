@@ -1,6 +1,11 @@
 import { Do, __fragment__ } from '@x-form/react-jsonschema'
 
-function Options({ schema, children }) {
+interface Props {
+  schema: any
+  children: any[]
+}
+
+function Options({ schema, children }: Props) {
   const { items, initialText } = schema
 
   if (children.length === 0)

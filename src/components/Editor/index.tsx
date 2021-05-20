@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import JE from 'jsoneditor'
+import 'jsoneditor/dist/jsoneditor.css'
 
 export default function Editor({ onChange, json = null, className = '' }: any) {
   const containerRef = useRef(null as any)

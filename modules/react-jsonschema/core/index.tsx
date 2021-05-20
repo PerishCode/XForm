@@ -4,14 +4,14 @@ import XForm, {
   __fragment__,
   __render__,
 } from '@x-form/react'
-import {
-  defaultTranspiler,
-  defaultComposer,
-  defualtExtractor,
-  TranspilerFactory,
-  ComposerFactory,
-  ExtractorFactory,
-} from './engine'
+
+import TranspilerFactory from './transpiler'
+import ComposerFactory from './composer'
+import ExtractorFactory from './extractor'
+
+const defaultTranspiler = TranspilerFactory()
+const defaultComposer = ComposerFactory()
+const defualtExtractor = ExtractorFactory()
 
 interface Props {
   schema?: any
@@ -39,22 +39,25 @@ function JSONSchemaXForm({
 
   useEffect(() => {
     transpile(JSON.parse(JSON.stringify(schema)))
-      .then(s => compose(s, innerDataRef.current))
+      .then((s: any) => compose(s, innerDataRef.current))
       .then(setParsedSchema)
   }, [schema])
 
   useEffect(() => {
-    innerDataRef.current !== formData &&
-      transpile(JSON.parse(JSON.stringify(schema)))
-        .then(s => compose(s, (innerDataRef.current = formData)))
-        .then(setParsedSchema)
+    if (innerDataRef.current === formData) return
+
+    transpile(JSON.parse(JSON.stringify(schema)))
+      .then((s: any) => compose(s, (innerDataRef.current = formData)))
+      .then(setParsedSchema)
   }, [formData])
 
   return (
     <XForm
       className={className}
       schema={parsedSchema}
-      onChange={update => onChange((innerDataRef.current = extract(update)))}
+      onChange={(update: any) =>
+        onChange((innerDataRef.current = extract(update)))
+      }
     />
   )
 }

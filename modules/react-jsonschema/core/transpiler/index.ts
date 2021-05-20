@@ -10,13 +10,13 @@ export default function TranspilerFactory(
   extensions = {}
 ) {
   const transpilerMap = {
-    async object(schema, params) {
+    async object(schema: any, params: any) {
       const { properties } = schema
       for (const key in properties)
         properties[key] = await transpile(properties[key], params)
       schema[__render__].push(XObject)
     },
-    async array(schema, params) {
+    async array(schema: any, params: any) {
       schema.template = await transpile(schema.template || {}, params)
       schema[__render__].push(XArray)
     },
