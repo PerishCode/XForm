@@ -1,6 +1,7 @@
 import { Configuration, ProvidePlugin } from 'webpack'
-import { resolve } from 'path'
+import { join, resolve } from 'path'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
+import { promises } from 'fs'
 
 export default {
   mode: 'development',
@@ -74,6 +75,18 @@ export default {
       entrypoints: false,
       version: false,
       warnings: false,
+    },
+    before: async (app: any) => {
+      const files = await promises.readdir(join(__dirname, 'mock'))
+
+      for (const file of files) {
+        const { default: service } = await import(join(__dirname, 'mock', file))
+
+        Object.keys(service).forEach(key => {
+          const [method, api] = key.split(' ')
+          app[method.toLowerCase()](api, service[key])
+        })
+      }
     },
   },
 } as Configuration
