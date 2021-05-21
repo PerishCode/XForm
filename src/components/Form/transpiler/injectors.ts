@@ -1,4 +1,4 @@
-import { __depth__ } from './renders'
+import { __depth__ } from './antd'
 
 export default [
   (schema: any, params: any) =>

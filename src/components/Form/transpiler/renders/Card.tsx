@@ -1,4 +1,4 @@
-export default function Card({ schema: { title }, children }) {
+export default function ({ schema: { title }, children }) {
   return (
     <div>
       <div>{title}</div>

@@ -1,30 +1,31 @@
 import { __render__ } from '@x-form/react-jsonschema'
-import renders from './renders'
+import renders, { __depth__ } from './antd'
 
 const { Input, Select, Label, Options, Card } = renders
 
-const DataComponent = {
-  string: () => [Input],
-}
-
-const BoxComponent = {
-  string: () => [Label],
-  array: () => [Options, Card],
-  object: () => [Card],
-}
-
 export default [
   (schema: any) => {
-    if (schema.enum) {
-      schema[__render__].push(Select)
-    } else {
-      const append = DataComponent[schema.type]
-      append && (schema[__render__] = schema[__render__].concat(append()))
-    }
+    if (schema.enum) schema[__render__].push(Select)
+    else if (schema.type === 'string') schema[__render__].push(Input)
   },
 
   (schema: any) => {
-    BoxComponent[schema.type] &&
-      schema[__render__].push(...BoxComponent[schema.type]())
+    switch (schema.type) {
+      case 'string': {
+        schema[__render__].push(Label)
+        break
+      }
+
+      case 'object': {
+        if (schema[__depth__] === 0) schema[__render__].push(Card)
+        break
+      }
+
+      case 'array': {
+        schema[__render__].push(Options)
+        if (schema[__depth__] === 0) schema[__render__].push(Card)
+        break
+      }
+    }
   },
 ]
