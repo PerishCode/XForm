@@ -1,5 +1,5 @@
 import XForm, { __render__, aggregatedOperation as Do } from '@x-form/react'
-import { Input, Tooltip } from 'antd'
+import { Input } from 'antd'
 import { useState } from 'react'
 import './App.less'
 
