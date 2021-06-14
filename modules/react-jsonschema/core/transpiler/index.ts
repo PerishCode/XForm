@@ -2,13 +2,11 @@ import { __render__ } from '@x-form/react'
 import XObject from './XObject'
 import XArray from './XArray'
 
-export default function TranspilerFactory(
-  Hooks = {
-    injectors: [],
-    generators: [],
-  },
-  extensions = {}
-) {
+export default function TranspilerFactory({
+  propsInjectors = [],
+  renderGenerators = [],
+  typeExtensions = {},
+}) {
   const transpilerMap = {
     async object(schema: any, params: any) {
       const { properties } = schema
@@ -20,36 +18,28 @@ export default function TranspilerFactory(
       schema.template = await transpile(schema.template || {}, params)
       schema[__render__].push(XArray)
     },
-    ...extensions,
+    ...typeExtensions,
   }
 
   async function transpile(schema: any = {}, params = {}) {
-    // $ref 属性暂时废弃
-    //
-    // if (schema['$ref']) {
-    //   const response = await fetch(schema['$ref'])
-    //   const json = await response.json()
-    //   const result = Object.assign(json, schema)
-    //   delete result['$ref']
-    //   return transpile(result, params)
-    // }
-
     if (schema.type) {
       // 初始化渲染函数数组
       schema[__render__] = []
 
       // 注入额外参数
-      params = Hooks.injectors.reduce(
+      params = propsInjectors.reduce(
         (previous, injector) => injector(schema, previous),
         params
       )
 
-      // 选择基本转译器
+      // 通过类型获取转译器
       const transpile = transpilerMap[schema.type]
+
+      // 调用转译器
       transpile && (await transpile(schema, params))
 
       // 补充渲染函数
-      Hooks.generators.forEach(generator => generator(schema))
+      renderGenerators.forEach(generator => generator(schema))
     }
 
     return schema

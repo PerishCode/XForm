@@ -9,7 +9,7 @@ import TranspilerFactory from './transpiler'
 import ComposerFactory from './composer'
 import ExtractorFactory from './extractor'
 
-const defaultTranspiler = TranspilerFactory()
+const defaultTranspiler = TranspilerFactory({})
 const defaultComposer = ComposerFactory()
 const defualtExtractor = ExtractorFactory()
 
@@ -29,6 +29,7 @@ function JSONSchemaXForm({
   className,
 }: Props) {
   const [parsedSchema, setParsedSchema] = useState(null)
+
   const innerDataRef = useRef(formData)
 
   const {

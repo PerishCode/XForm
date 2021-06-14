@@ -1,6 +1,7 @@
 import { Configuration, ProvidePlugin } from 'webpack'
 import { join, resolve } from 'path'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
+import MonacoEditorWebpackPlugin from 'monaco-editor-webpack-plugin'
 import { promises } from 'fs'
 
 export default {
@@ -41,8 +42,12 @@ export default {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.svg$/,
-        use: ['svg-url-loader'],
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
       },
     ],
   },
@@ -54,6 +59,9 @@ export default {
     }),
     new ProvidePlugin({
       React: 'react',
+    }),
+    new MonacoEditorWebpackPlugin({
+      languages: ['json', 'javascript'],
     }),
   ],
 
